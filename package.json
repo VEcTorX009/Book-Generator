@@ -1,11 +1,16 @@
 {
+  "homepage" :"https://vectorx009.github.io/Book-Generator/",
   "name": "openai-quickstart-node",
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predeploy" :"npm run build",
+    "deploy":"gh-pages -d build",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test" :"react-scripts test",
+    "eject" : "react-scripts-eject"
   },
   "dependencies": {
     "next": "^13.1.1",
