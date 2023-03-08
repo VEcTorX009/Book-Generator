@@ -2,7 +2,7 @@
 
 Recommends book based on your interests.
 
-![image](https://im3.ezgif.com/tmp/ezgif-3-be6e18348a.gif)
+https://user-images.githubusercontent.com/85481905/223776826-e5c25086-846f-4fbc-b079-bf30fb024b9c.mp4
 
 Frontend + Backend - NextJS
 
