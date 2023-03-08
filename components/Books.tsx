@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
 import { useState } from "react";
-import styles from "./index.module.css";
 
-export default function Home() {
+export default function Book() {
   const [gender, setGender] = useState("man");
   const [age, setAge] = useState(30);
   const [priceMin, setPriceMin] = useState(25);
@@ -23,51 +22,40 @@ export default function Home() {
     }
   }, [mode]);
 
-  const handleclose = () => {
-    setResult(null);
+  const DEFAULT_PARAMS = {
+    model: "text-davinci-002",
+    prompt: `suggest 3 books between $ ${priceMin} and $ ${priceMax} for a ${age} years old ${gender} that is into ${hobbies}`,
+    temperature: 0.7,
+    max_tokens: 256,
+    top_p: 1,
+    frequency_penalty: 0,
+    presence_penalty: 0,
   };
-  async function onSubmit(event) {
-    event.preventDefault();
-    if (loading) {
-      return;
-    }
-    setLoading(true);
-    try {
-      const response = await fetch("/api/generate-books", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ priceMin, priceMax, gender, age, hobbies }),
-      });
-
-      const data = await response.json();
-      setResult(data.result.replaceAll("\n", "<br/>"));
-      if (response.status !== 200) {
-        throw (
-          data.error ||
-          new Error(`Request failed with status ${response.status}`)
-        );
-      }
-    } catch (error) {
-      console.error(error);
-      alert(error.message);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const fecthAi = async (params = {}) => {
+    const params_ = { ...DEFAULT_PARAMS };
+    const openai_api_key =
+      "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";
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + openai_api_key,
+      },
+      body: JSON.stringify(params_),
+    };
+    const response = await fetch(
+      "https://api.openai.com/v1/completions",
+      requestOptions
+    );
+    const data = await response.json();
+    const final = data["choices"][0]["text"];
+    setResult(final);
+    return final;
+  };
 
   return (
     <div>
-      <Head>
-        <title>Books Generator</title>
-        <link
-          rel="icon"
-          href="http://clipart-library.com/newimages/book-clip-art-7.png"
-        />
-      </Head>
-
-      <div className={styles.mode}>
+      <div className={mode}>
         <label htmlFor="Mode">Select Mode</label>
         <select
           name="mode"
@@ -80,13 +68,9 @@ export default function Home() {
         </select>
       </div>
 
-      <main className={styles.main}>
-        <img
-          src="http://clipart-library.com/newimages/book-clip-art-7.png"
-          className={styles.icon}
-        />
+      <main className="main">
         <h3>Books Generator</h3>
-        <form onSubmit={onSubmit}>
+        <div className="idkwhathtis">
           <label>For who is the gift?</label>
           <select
             name="gender"
@@ -136,20 +120,18 @@ export default function Home() {
             value={hobbies}
             onChange={(e) => setHobbies(e.target.value)}
           />
-          <input type="submit" value="Generate Books" />
-        </form>
+          <button onClick={fecthAi}>Submit</button>
+        </div>
         {loading && (
-          <div className={styles.loading}>
+          <div className="loading">
             <h1>Loading...</h1>
           </div>
         )}
         {result && (
-          <div className={styles.resultbox}>
-            <div
-              className={styles.result}
-              dangerouslySetInnerHTML={{ __html: result }}
-            />
-            <button onClick={handleclose}>Close</button>
+          <div className="resultbox">
+            <div className="result">
+              <p>{result}</p>
+            </div>
           </div>
         )}
       </main>
