@@ -33,8 +33,6 @@ export default function Book() {
   };
   const fecthAi = async (params = {}) => {
     const params_ = { ...DEFAULT_PARAMS };
-    const openai_api_key =
-      "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";
     const requestOptions = {
       method: "POST",
       headers: {
