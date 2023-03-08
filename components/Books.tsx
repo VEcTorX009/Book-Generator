@@ -37,7 +37,7 @@ export default function Book() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + openai_api_key,
+        Authorization: "Bearer " + process.env.API_KEY,
       },
       body: JSON.stringify(params_),
     };
