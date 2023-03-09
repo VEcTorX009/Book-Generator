@@ -37,7 +37,7 @@ export default function Book() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + `${process.env.API_KEY}`,
+        Authorization: "Bearer " + `${process.env.NEXT_PUBLIC_API_KEY}`,
       },
       body: JSON.stringify(params_),
     };
@@ -47,6 +47,7 @@ export default function Book() {
     );
     const data = await response.json();
     const final = data["choices"][0]["text"];
+    // console.log(data);
     setResult(final);
     return final;
   };
