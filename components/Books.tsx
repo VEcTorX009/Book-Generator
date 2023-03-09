@@ -123,7 +123,7 @@ export default function Book() {
           <button onClick={fecthAi}>Submit</button>
         </div>
         {loading && (
-          <div className="loading">
+          <div className={styles.loading}>
             <h1>Loading...</h1>
           </div>
         )}
