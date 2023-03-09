@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
 import { useState } from "react";
+import styles from "./index.module.css";
 
 export default function Book() {
   const [gender, setGender] = useState("man");
@@ -127,10 +128,12 @@ export default function Book() {
           </div>
         )}
         {result && (
-          <div className="resultbox">
-            <div className="result">
-              <p>{result}</p>
-            </div>
+          <div className={styles.resultbox}>
+            <div
+              className={styles.result}
+              dangerouslySetInnerHTML={{ __html: result }}
+            />
+            <button onClick={handleclose}>Close</button>
           </div>
         )}
       </main>
